@@ -1,0 +1,24 @@
+{% extends "index.html" %}
+{% block content %}
+  <div class="login-card">
+    <h1>Welcome to SRD</h1>
+    <p class="muted">Sign in to manage or view dashboards.</p>
+
+    <form method="post" class="login-form" autocomplete="off">
+      {{ form.hidden_tag() }}
+
+      <label>Email</label>
+      {{ form.email(class="input", autocomplete="off", value="") }}
+
+      <label>Password</label>
+      {{ form.password(class="input", autocomplete="off", value="") }}
+
+      {{ form.submit(class="btn primary full") }}
+    </form>
+
+    <p class="muted small">
+      First run creates a default admin:<br>
+      <code>admin@srd.local</code> / <code>ChangeMe123!</code> (please change)
+    </p>
+  </div>
+{% endblock %}

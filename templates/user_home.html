@@ -1,0 +1,11 @@
+{% extends "index.html" %}
+{% block content %}
+<h2>User Portal</h2>
+<p>Open the provisioned dashboard in Grafana (you may need to log in to Grafana with a viewer/editor account):</p>
+<ul>
+  <li><a class="btn" href="{{ grafana_url }}" target="_blank">Open Grafana</a></li>
+  <li><span class="muted">Folder: {{ folder_title }}</span></li>
+  <li><span class="muted">Dashboard: {{ dashboard_title }}</span></li>
+</ul>
+<p class="muted">To build simple dashboards using the High-Level Automated Platform (GUI), use Grafana’s “Create → Dashboard” and add panels for CPU, Memory, and Disk; no coding required.</p>
+{% endblock %}

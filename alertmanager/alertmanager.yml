@@ -1,0 +1,12 @@
+route:
+  receiver: team-email
+  group_by: ['alertname', 'instance']
+
+receivers:
+  - name: team-email
+    email_configs:
+      - to: 'your_email@example.com'
+        from: 'alertmanager@example.com'
+        smarthost: 'smtp.example.com:587'
+        auth_username: 'smtp_user'
+        auth_password: 'smtp_password'

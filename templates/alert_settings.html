@@ -1,0 +1,20 @@
+{% extends "index.html" %}
+{% block content %}
+<h2>Alert Thresholds (Form)</h2>
+<p class="muted">Update thresholds (default 80%). Saves <code>prometheus/rules.yml</code> and reloads Prometheus.</p>
+<form method="post">
+  {{ form.hidden_tag() }}
+  <div class="grid">
+    <div class="card">
+      <label>CPU (%)</label> {{ form.cpu(class="input", id="cpu_form") }}
+    </div>
+    <div class="card">
+      <label>Memory (%)</label> {{ form.memory(class="input", id="memory_form") }}
+    </div>
+    <div class="card">
+      <label>Disk (%)</label> {{ form.disk(class="input", id="disk_form") }}
+    </div>
+  </div>
+  {{ form.submit(class="btn btn-primary") }}
+</form>
+{% endblock %}

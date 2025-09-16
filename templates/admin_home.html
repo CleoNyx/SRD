@@ -1,0 +1,50 @@
+{% extends "index.html" %}
+
+{% block sidebar %}
+  <h3 class="side-title">Manage</h3>
+  <a class="side-link" href="{{ url_for('manage_users') }}">Users</a>
+  <a class="side-link" href="{{ url_for('edit_dashboard') }}">Edit Dashboard JSON</a>
+  <a class="side-link" href="{{ url_for('alert_settings') }}">Alert Thresholds (form)</a>
+  <button id="btn-graf-info" class="side-link as-button">Grafana Info (JSON)</button>
+
+  <h3 class="side-title" style="margin-top:16px;">Actions</h3>
+  <button id="btn-provision" class="btn primary full">Provision Datasource, Folder & Dashboard</button>
+
+  <h3 class="side-title" style="margin-top:16px;">Status</h3>
+  <ul class="status-list">
+    <li>Prometheus: <strong id="prom-status">checking…</strong></li>
+    <li>Grafana: <strong id="graf-status">checking…</strong></li>
+  </ul>
+{% endblock %}
+
+{% block content %}
+  <!--<section class="card">
+    <h2>Provision (HTTP API)</h2>
+    <p class="muted">Uses Grafana HTTP API with your service account token (stored on the server).</p>
+
+    <div id="prov-toast" class="flash" style="display:none;">
+      <div id="prov-toast-inner" class="flash-success"></div>
+    </div>
+
+    <pre id="provision-result" class="codeblock" style="display:none;"></pre>
+  </section> -->
+
+  <section class="grid-2">
+    <div class="card">
+      <h3>Quick Thresholds (AJAX)</h3>
+      <div class="grid-3">
+        <label>CPU % <input id="cpu" class="input" type="number" min="10" max="100" value="80"></label>
+        <label>Memory % <input id="memory" class="input" type="number" min="10" max="100" value="80"></label>
+        <label>Disk % <input id="disk" class="input" type="number" min="10" max="100" value="80"></label>
+      </div>
+      <button id="btn-alert-save-ajax" class="btn primary">Save & Reload</button>
+      <pre id="ajax-alert-out" class="codeblock" style="display:none;"></pre>
+    </div>
+
+    <div class="card">
+      <h3>Grafana Info</h3>
+      <p class="muted">Datasources and dashboards discovered via API.</p>
+      <pre id="graf-info" class="codeblock" style="display:none;"></pre>
+    </div>
+  </section>
+{% endblock %}

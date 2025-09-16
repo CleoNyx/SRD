@@ -1,0 +1,30 @@
+groups:
+- name: srd_windows_resource_alerts
+  rules:
+  - alert: HighCPU
+    expr: (100 - (avg by (instance) (irate(windows_cpu_time_total{mode="idle"}[5m]))
+      * 100)) > 80
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: High CPU usage
+      description: CPU usage >80% for 5 minutes
+  - alert: HighMemory
+    expr: ((1 - (windows_memory_available_bytes / windows_memory_physical_total_bytes))
+      * 100) > 80
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: High Memory usage
+      description: Memory usage >80% for 5 minutes
+  - alert: HighDisk
+    expr: (100 - (sum by (instance, volume) (windows_logical_disk_free_bytes) / sum
+      by (instance, volume) (windows_logical_disk_size_bytes) * 100)) > 80
+    for: 10m
+    labels:
+      severity: warning
+    annotations:
+      summary: High Disk usage
+      description: Disk utilisation >80% for 10 minutes

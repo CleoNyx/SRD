@@ -1,0 +1,35 @@
+{% extends "index.html" %}
+{% block content %}
+<h2>User Management</h2>
+<div class="grid">
+  <div class="card">
+    <h3>Create User</h3>
+    <form method="post">
+      {{ form.hidden_tag() }}
+      <label>Name</label> {{ form.name(class="input") }}
+      <label>Email</label> {{ form.email(class="input") }}
+      <label>Password</label> {{ form.password(class="input") }}
+      <label>Role</label> {{ form.role(class="input") }}
+      {{ form.submit(class="btn btn-primary") }}
+    </form>
+  </div>
+
+  <div class="card">
+    <h3>Existing Users</h3>
+    <table class="table">
+      <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Active</th><th></th></tr></thead>
+      <tbody>
+      {% for u in users %}
+        <tr>
+          <td>{{ u.name }}</td>
+          <td>{{ u.email }}</td>
+          <td>{{ u.role }}</td>
+          <td>{{ 'Yes' if u.is_active else 'No' }}</td>
+          <td><a class="btn" href="{{ url_for('toggle_user', user_id=u.id) }}">Toggle</a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

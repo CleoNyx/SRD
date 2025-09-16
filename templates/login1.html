@@ -1,0 +1,20 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="card card-centered login-card">
+  <h1>Welcome to SRD</h1>
+  <p class="muted">Sign in to manage or view dashboards.</p>
+  <form method="post">
+    {{ form.hidden_tag() }}
+    <label>Email</label>
+    {{ form.email(class="input") }}
+
+    <label>Password</label>
+    {{ form.password(class="input") }}
+
+    {{ form.submit(class="btn btn-primary full") }}
+  </form>
+  <p class="muted small">First run creates a default admin:<br>
+    <code>admin@srd.local / ChangeMe123!</code> (please change)
+  </p>
+</div>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "index.html" %}
+{% block content %}
+<h2>Edit Dashboard JSON</h2>
+<p class="muted">Edit the dashboard, then return to Admin Console and click <em>Provision</em> to apply.</p>
+<form method="post">
+  <textarea name="json_text" class="editor">{{ text }}</textarea>
+  <button class="btn btn-primary">Save JSON</button>
+</form>
+{% endblock %}

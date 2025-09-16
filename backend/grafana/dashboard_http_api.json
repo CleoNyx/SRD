@@ -1,0 +1,225 @@
+{
+  "title": "SRD - Network Resources (HTTP API)",
+  "timezone": "browser",
+  "schemaVersion": 38,
+  "version": 1,
+  "editable": true,
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "CPU usage",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "(100 - (avg by (instance) (irate(windows_cpu_time_total{mode=\"idle\"}[5m])) * 100))",
+          "legendFormat": "CPU %"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "orange",
+                "value": 80
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "type": "gauge",
+      "title": "RAM usage",
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 12,
+        "y": 0
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
+      "targets": [
+        {
+          "refId": "B",
+          "expr": "((1 - (windows_memory_available_bytes / windows_memory_physical_total_bytes)) * 100)"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "orange",
+                "value": 80
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "type": "gauge",
+      "title": "RAM free",
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 18,
+        "y": 0
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
+      "targets": [
+        {
+          "refId": "C",
+          "expr": "((windows_memory_available_bytes / windows_memory_physical_total_bytes) * 100)"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red"
+              },
+              {
+                "color": "orange",
+                "value": 20
+              },
+              {
+                "color": "green",
+                "value": 30
+              }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Disk Space Used and Available",
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
+      "targets": [
+        {
+          "refId": "D",
+          "expr": "sum by (instance, volume) (windows_logical_disk_size_bytes) / 1024 / 1024 / 1024 / 1024",
+          "legendFormat": "{{instance}} {{volume}} total (TiB)"
+        },
+        {
+          "refId": "E",
+          "expr": "sum by (instance, volume) (windows_logical_disk_free_bytes) / 1024 / 1024 / 1024 / 1024",
+          "legendFormat": "{{instance}} {{volume}} free (TiB)"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Used Disk Space",
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 16
+      },
+      "targets": [
+        {
+          "refId": "F",
+          "expr": "sum by (instance, volume) ((windows_logical_disk_size_bytes - windows_logical_disk_free_bytes)) / 1024 / 1024 / 1024 / 1024",
+          "legendFormat": "{{instance}} {{volume}} used (TiB)"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "orange",
+                "value": 0.8
+              },
+              {
+                "color": "red",
+                "value": 0.9
+              }
+            ]
+          }
+        },
+        "overrides": []
+      }
+    }
+  ],
+  "templating": {
+    "list": [
+      {
+        "name": "instance",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "__PROM__"
+        },
+        "query": "label_values(up, instance)",
+        "refresh": 2
+      },
+      {
+        "name": "volume",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "__PROM__"
+        },
+        "query": "label_values(windows_logical_disk_free_bytes, volume)",
+        "refresh": 2
+      }
+    ]
+  }
+}

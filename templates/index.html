@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SRD Monitoring</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-left">
+      <img src="{{ url_for('static', filename='logo.svg') }}" alt="SRD" class="logo">
+      <span class="brand">System Radar Dashboard</span>
+    </div>
+    <nav class="topbar-right">
+      {% if current_user.is_authenticated %}
+        <span class="user-pill">{{ current_user.name }} <span class="role">({{ current_user.role }})</span></span>
+        <a class="btn ghost contrast" href="{{ url_for('logout') }}">Logout</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  <div class="{% if current_user.is_authenticated %}shell{% else %}auth-container{% endif %}">
+
+    {% if current_user.is_authenticated %}
+      <aside class="sidebar">
+        {% block sidebar %}{% endblock %}
+      </aside>
+    {% endif %}
+
+    <main class="container">
+      {% if current_user.is_authenticated %}
+        <div class="toolbar">
+          <button id="btn-back" class="btn">← Back</button>
+          <a class="btn" href="{{ url_for('index') }}">Home</a>
+        </div>
+      {% endif %}
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash">
+            {% for category, message in messages %}
+              <div class="flash-item flash-{{ category|lower }}">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+
+  <footer class="footer">
+    <span>© {{ 2025 }} SRD</span>
+  </footer>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
