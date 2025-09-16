@@ -460,3 +460,5 @@ def internal_error(e):
 
 if __name__ == "__main__":
     app.run(host=settings.FLASK_HOST, port=settings.FLASK_PORT)
+
+# Test
